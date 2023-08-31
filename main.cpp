@@ -3,9 +3,16 @@
 #include <string>
 #include <fstream>
 #include <cmath>
+#include <vector>
+#include <iomanip>
+#include <numeric>
 
-vector<double> u(vector<double> x) {
-    return 1 - (1 - exp(-10))*x - exp(-10*x)
+std::vector<double> u(std::vector<double> x) {
+    std::vector<double> new_vec(x.size());
+    for (int i = 0; i < x.size(); i++) {
+        new_vec[i] = 1 - (1 - exp(-10)) * x[i] - exp(-10 * x[i]);
+    }
+    return new_vec;
 }
 
 int main() {
@@ -31,7 +38,7 @@ int main() {
     std::iota(v1.begin(), v1.end(), 1);
     
     // Print the vector to make sure the next for loop won't run into problems
-    for (int i = 0; i <= n_steps; i++) {
+    for (int i = 0; i < n_steps; i++) {
         std::cout << v1.at(i) << " ";
     }
 
@@ -40,7 +47,7 @@ int main() {
     int prec = 4;
 
     // Initialize the values of u(x) using v1, which is a vector of x-values
-    vector<double> y = u(v1);
+    std::vector<double> y = u(v1);
 
     // Loop over steps
     for (int i = 0; i < n_steps; i++)
