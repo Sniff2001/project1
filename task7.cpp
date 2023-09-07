@@ -19,7 +19,6 @@ int runTask7(std::vector<double> a, std::vector<double> b, std::vector<double> c
 	std::vector<double> x(n_steps + 1);
 
 	// creating an even number of points between 0 and 1 of n_steps length
-	//std::iota(x.begin(), x.end(), h);
 	x[0] = 0;
 	for (int i = 1; i < x.size(); i++) {
 		x[i] = i * h;
@@ -42,7 +41,7 @@ int runTask7(std::vector<double> a, std::vector<double> b, std::vector<double> c
 	}
 
 	// backward for loop to calculate each index of v
-	for (int i = v.size() - 1; i >= 0; i--) {
+	for (int i = v.size() - 2; i >= 0; i--) {
 		v[i] = (gi_tilde[i] - (v[i + 1] * b[i])) / bi_tilde[i];
 	}
 	

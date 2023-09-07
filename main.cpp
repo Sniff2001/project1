@@ -6,8 +6,7 @@
 int main() {
     //runTask2();
 
-    //std::vector<int> n_steps = {10, 100, 1000, 1000000, 10000000};
-    std::vector<int> n_steps = {10};
+    std::vector<int> n_steps = {10, 100, 1000, 1000000, 10000000};
     for (int i = 0; i < n_steps.size(); i++) {
         // Define the tridiagonal
         std::vector<double> a(n_steps[i], -1);
@@ -19,7 +18,6 @@ int main() {
         c[0] = 0;
 
         std::string output_file_name = "output_task7_" + std::to_string(n_steps[i]) + ".txt";
-        //std::cout << i << n_steps[i];
         runTask7(a, b, c, n_steps[i], output_file_name);
     }
     
