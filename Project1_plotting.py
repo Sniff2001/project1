@@ -18,8 +18,8 @@ def readfile_plot(filename, name):
     plt.yticks(fontsize=14)
     plt.grid(linestyle="dotted")
     plt.title("u(x)", fontsize=16)
-    plt.show()
     plt.savefig(name)
+    plt.show()
 readfile_plot(r"x_vec.txt", r"x_vec_plot.png")
 
 #Problem 7
@@ -45,8 +45,8 @@ def compare_sol(filename):
     plt.yticks(fontsize=14)
     plt.grid(linestyle="dotted")
     plt.title("u(x)", fontsize=16)
-    plt.show()
     plt.savefig("Comparison numerical and exact solutions")
+    plt.show()
 #Problem 8
 #"""
 def absolute_relative_error(u_i, v_i, x_i, n_steps):
