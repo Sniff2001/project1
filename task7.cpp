@@ -27,30 +27,36 @@ int runTask7(std::vector<double> a, std::vector<double> b, std::vector<double> c
 	// Setting up boundary values
 	v[0] = 0;
 	v[n_steps-1] = 0;
-	std::vector<double> bi_tilde = { 2 };
-	std::vector<double> gi_tilde = { g0 };
+	std::vector<double> b_tilde = { 2 };
+	std::vector<double> g_tilde = { g0 };
 
 	// gaussian elim here
 
 	// forward for loop to calculate the primes' indices
 	for (int i = 1; i < n_steps; i++) {
-		double frac_i = a[i] / (bi_tilde[i - 1]);
-		bi_tilde.push_back((b[i] - frac_i) * c[i-1]);
-		double gi = std::pow(h, 2.0) * 100 * exp(-10 * x[i]);
-		gi_tilde.push_back((gi - frac_i) * gi_tilde[i - 1]);
+		double frac_i = a[i] / (b_tilde[i - 1]);
+		b_tilde.push_back(b[i] - frac_i * c[i-1]);
+		double gi = std::pow(h, 2.0) * 100. * exp(-10. * x[i]);
+		g_tilde.push_back(gi - frac_i * g_tilde[i - 1]);
 	}
+
+	/*for (int i = 0; i < n_steps; i++) {
+		// this one goes to -inf
+		std::cout << b_tilde.at(i) << " ";
+		std::cout << g_tilde.at(i) << " ";
+	}*/
 
 	// backward for loop to calculate each index of v
 	for (int i = v.size() - 2; i >= 0; i--) {
-		v[i] = (gi_tilde[i] - (v[i + 1] * b[i])) / bi_tilde[i];
+		v[i] = (g_tilde[i] - (v[i + 1] * c[i])) / b_tilde[i];
 	}
 	
 	//write to data file, same setup as for task 2
 	std::ofstream ofile;
 	ofile.open(filename);
 	std::vector<double> v1(n_steps);
-	int width = 12;
-	int prec = 4;
+	int width = 15;
+	int prec = 7;
 	for (int i = 0; i < x.size(); i++)
 	{
 		ofile << std::setw(width) << std::setprecision(prec) << std::scientific << x[i]
