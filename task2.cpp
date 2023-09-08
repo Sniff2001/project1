@@ -5,6 +5,9 @@
 #include <vector>
 #include <iomanip>
 #include <numeric>
+#include <omp.h>
+
+#pragma
 
 std::vector<double> u(std::vector<double> x) {
     std::vector<double> new_vec(x.size());
@@ -33,15 +36,18 @@ int runTask2() {
     // Initialising the vector
     // First declare the size of the vector to be n_steps
     std::vector<double> x(n_steps);
+
+#pragma omp parallel for
     for (int i = 0; i < n_steps; i++) 
     {
         x[i] = x[0] + h * i;
     }
 
     // Print the vector to make sure the next for loop won't run into problems
-    for (int i = 0; i < n_steps; i++) {
-        std::cout << x.at(i) << " ";
-    }
+
+    //for (int i = 0; i < n_steps; i++) {
+    //    std::cout << x.at(i) << " ";
+    //}
 
     // Some width and precision parameters we will use to format the output
     int width = 12;
@@ -51,6 +57,8 @@ int runTask2() {
     std::vector<double> y = u(x);
 
     // Loop over steps
+
+#pragma omp parallel for
     for (int i = 0; i < n_steps; i++)
     {
         // Write a line with the current x and y values (nicely formatted) to file
