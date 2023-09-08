@@ -8,8 +8,10 @@
 
 // remember to add .txt to the end of filename
 int runTask7(std::vector<double> a, std::vector<double> b, std::vector<double> c, int n_steps, std::string filename) {
-	// x_max - x_min = 1 - 0 = 1
-	double h = 1./n_steps;
+
+	/* strictly speaking 1.0 represents x_max - x_min, which is 1 in this case
+	so for a completely general alogrythm this should also be an input */
+	double h = 1. / n_steps;
 
 	double g0 = std::pow(h, 2.0) * 100 * exp(-10 * 0);
 	double gn = std::pow(h, 2.0) * 100 * exp(-10 * 1);
@@ -26,7 +28,7 @@ int runTask7(std::vector<double> a, std::vector<double> b, std::vector<double> c
 
 	// Setting up boundary values
 	v[0] = 0;
-	v[n_steps-1] = 0;
+	v[n_steps - 1] = 0;
 	std::vector<double> b_tilde = { 2 };
 	std::vector<double> g_tilde = { g0 };
 
@@ -40,6 +42,8 @@ int runTask7(std::vector<double> a, std::vector<double> b, std::vector<double> c
 		g_tilde.push_back(gi - frac_i * g_tilde[i - 1]);
 	}
 
+	v[n_steps - 2] = b_tilde[n_steps - 2]/g_tilde[n_steps - 2];
+
 	/*for (int i = 0; i < n_steps; i++) {
 		// this one goes to -inf
 		std::cout << b_tilde.at(i) << " ";
@@ -47,7 +51,7 @@ int runTask7(std::vector<double> a, std::vector<double> b, std::vector<double> c
 	}*/
 
 	// backward for loop to calculate each index of v
-	for (int i = v.size() - 2; i >= 0; i--) {
+	for (int i = v.size() - 3; i > 0; i--) {
 		v[i] = (g_tilde[i] - (v[i + 1] * c[i])) / b_tilde[i];
 	}
 	
