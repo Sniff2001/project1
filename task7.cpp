@@ -11,8 +11,10 @@
 
 // remember to add .txt to the end of filename
 int runTask7(std::vector<double> a, std::vector<double> b, std::vector<double> c, int n_steps, std::string filename) {
-	// x_max - x_min = 1 - 0 = 1
-	double h = 1./n_steps;
+
+	/* strictly speaking 1.0 represents x_max - x_min, which is 1 in this case
+	so for a completely general alogrythm this should also be an input */
+	double h = 1. / n_steps;
 
 	double g0 = std::pow(h, 2.0) * 100 * exp(-10 * 0);
 
@@ -33,7 +35,7 @@ int runTask7(std::vector<double> a, std::vector<double> b, std::vector<double> c
 
 	// Setting up boundary values
 	v[0] = 0;
-	v[n_steps-1] = 0;
+	v[n_steps - 1] = 0;
 	std::vector<double> b_tilde = { 2 };
 	std::vector<double> g_tilde = { g0 };
 

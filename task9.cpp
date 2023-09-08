@@ -41,8 +41,10 @@ int runTask9(double a, double b, double c, int n_steps, std::string filename) {
 		g_tilde.push_back(gi - frac_i * g_tilde[i - 1]);
 	}
 
+	v[n_steps - 2] = b_tilde[n_steps - 2] / g_tilde[n_steps - 2];
+
 	// backward for loop to calculate each index of v
-	for (int i = v.size() - 2; i >= 0; i--) {
+	for (int i = v.size() - 3; i > 0; i--) {
 		v[i] = (g_tilde[i] - (v[i + 1] * c)) / b_tilde[i];
 	}
 
