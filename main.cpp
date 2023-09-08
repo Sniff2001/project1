@@ -4,7 +4,7 @@
 #include "taskheader.h"
 
 int main() {
-    //runTask2();
+    runTask2();
 
     std::vector<int> n_steps = {10, 100, 1000, 1000000, 10000000};
     for (int i = 0; i < n_steps.size(); i++) {

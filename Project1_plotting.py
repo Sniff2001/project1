@@ -1,5 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
+
+
 #Problem 2
 def readfile_plot(filename, name):
     infile = open(filename, "r")
@@ -17,15 +19,20 @@ def readfile_plot(filename, name):
     plt.xticks(fontsize=14)
     plt.yticks(fontsize=14)
     plt.grid(linestyle="dotted")
-    plt.title("u(x)", fontsize=16)
     plt.savefig(name)
-    plt.show()
-readfile_plot(r"x_vec.txt", r"x_vec_plot.png")
+    plt.close()
+
+readfile_plot(r"x_vec.txt", r"task2plot.pdf")
+
+
 #Problem 7
 def compare_sol(filename, n_steps):
+    plt.figure(figsize=(8,6))
+
     #exact
     x_exact = np.linspace(0, 1, 1000)
     u_x = 1 - (1-np.exp(-10))*x_exact - np.exp(-10*x_exact)
+
     #numerical
     for i in range(len(filename)):
         infile = open(filename[i], "r")
@@ -38,23 +45,28 @@ def compare_sol(filename, n_steps):
         u_val = np.array(u_val)
         x_val = np.array(x_val)
         plt.plot(x_val, u_val, label=f"n_step = {n_steps[i]}")
-    plt.plot(x_exact, u_x, label="exact")
-    plt.legend(fontsize=14)
+
+    plt.plot(x_exact, u_x, label="analytical", color="black", linestyle="dotted", linewidth=3)
+
+    plt.legend(fontsize=14, loc="lower left")
     plt.xlabel("x", fontsize=14)
     plt.ylabel("u(x)", fontsize=14)
+    plt.loglog()
     plt.xticks(fontsize=14)
     plt.yticks(fontsize=14)
     plt.grid(linestyle="dotted")
-    plt.title("u(x)", fontsize=16)
-    plt.loglog()
-    plt.savefig("Comparison numerical and exact solutions")
-    plt.show()
+    plt.savefig("task7plot.pdf")
+    plt.close()
+
 n_steps = [1e1, 1e2, 1e3, 1e6, 1e7]
 filenames = ["output_task7_10.txt","output_task7_100.txt","output_task7_1000.txt",
              "output_task7_1000000.txt", "output_task7_10000000.txt"]
+
 compare_sol(filenames, n_steps)
+
+
 #Problem 8
-#"""
+
 #Function to plot abs/rel error and the max of the rel error compared to n_step
 def absolute_relative_error(filename, n_steps):
     fig, (ax1, ax2) = plt.subplots(1, 2)
@@ -97,7 +109,7 @@ def absolute_relative_error(filename, n_steps):
         ax1.loglog()
         ax2.loglog()
     #fig.tight_layout()
-    plt.savefig("Task_8ab.png")
+    plt.savefig("Task_8ab.pdf")
     plt.show()
 #plotting maximum relative error
     plt.plot(n_steps, rel_max, label="maximum relative error")
@@ -106,8 +118,8 @@ def absolute_relative_error(filename, n_steps):
     plt.ylabel(r"max($\epsilon_i$)", fontsize=14)
     plt.title("max relative error vs n_steps",fontsize=16)
     plt.loglog()
-    plt.savefig("Task_8c.png")
+    plt.savefig("Task_8c.pdf")
     plt.show()
 absolute_relative_error(filenames, n_steps)
-#"""
+
 
