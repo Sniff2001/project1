@@ -12,11 +12,14 @@
 // remember to add .txt to the end of filename
 int runTask7(std::vector<double> a, std::vector<double> b, std::vector<double> c, int n_steps, std::string filename) {
 
-	/* strictly speaking 1.0 represents x_max - x_min, which is 1 in this case
-	so for a completely general alogrythm this should also be an input */
+	/*  In a completely general algorithm the boundary conditions should also be
+	inputs. They are assumed to be u(0) = u(1) = 0 here. As the boundary conditions 
+	are stated before the algorithms are mentioned, we have assumed that the general 
+	algorithm is general due to the arbitrary tridiagonal matrix, not due to 
+	arbitrary boundary conditions. */
 	double h = 1. / n_steps;
 
-	double g0 = std::pow(h, 2.0) * 100 * exp(-10 * 0);
+	double g0 = std::pow(h, 2.) * 100 * exp(-10 * 0.);
 
 	// Define the solution vectors
 	std::vector<double> g(n_steps + 1);
@@ -24,23 +27,22 @@ int runTask7(std::vector<double> a, std::vector<double> b, std::vector<double> c
 	std::vector<double> x(n_steps + 1);
 
 	// creating an even number of points between 0 and 1 of n_steps length
-	x[0] = 0;
+	x[0] = 0.;
 	int xsize = x.size();
 
 #pragma omp parallel for
 	for (int i = 1; i < xsize; i++) {
 		x[i] = i * h;
-		g[i] = std::pow(h, 2.0) * 100 * exp(-10 * x[i]);
+		g[i] = std::pow(h, 2.) * 100 * exp(-10 * x[i]);
 	}
 
 	// Setting up boundary values
-	v[0] = 0;
-	v[n_steps - 1] = 0;
-	std::vector<double> b_tilde = { 2 };
+	v[0] = 0.;
+	v[n_steps] = 0.;
+	std::vector<double> b_tilde = { 2. };
 	std::vector<double> g_tilde = { g0 };
 
 	// gaussian elim here
-
 
 #pragma omp parallel for
 	// forward for loop to calculate the primes' indices
@@ -50,8 +52,11 @@ int runTask7(std::vector<double> a, std::vector<double> b, std::vector<double> c
 		g_tilde.push_back(g[i] - frac_i * g_tilde[i - 1]);
 	}
 
-
 	// backward for loop to calculate each index of v
+	// note that the loop starts at the third to last value, 
+	// as the second to last value is found separately.
+
+	v[n_steps - 1] = g_tilde[n_steps - 1] / b_tilde[n_steps - 1];
 
 #pragma omp parallel for
 	for (int i = v.size() - 2; i > 0; i--) {
@@ -73,5 +78,6 @@ int runTask7(std::vector<double> a, std::vector<double> b, std::vector<double> c
 			<< "\n";
 	}
 	ofile.close();
+
 	return 0;
 }
