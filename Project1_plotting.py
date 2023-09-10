@@ -26,12 +26,15 @@ readfile_plot(r"x_vec.txt", r"task2plot.pdf")
 
 
 #Problem 7
+
+n_steps = [1e1, 1e2, 1e3, 1e6, 1e7]
+# exp of the number of steps, for formatting purposes in legend()
+n_exp = np.log10(np.array(n_steps))
+filenames = ["output_task7_10.txt","output_task7_100.txt","output_task7_1000.txt",
+             "output_task7_1000000.txt", "output_task7_10000000.txt"]
+
 def compare_sol(filename, n_steps):
     plt.figure(figsize=(8,6))
-
-    #exact
-    x_exact = np.linspace(0, 1, 1000)
-    u_x = 1 - (1-np.exp(-10))*x_exact - np.exp(-10*x_exact)
 
     #numerical
     for i in range(len(filename)):
@@ -44,11 +47,14 @@ def compare_sol(filename, n_steps):
             u_val.append(float(u))
         u_val = np.array(u_val)
         x_val = np.array(x_val)
-        plt.plot(x_val, u_val, label=f"n_step = {n_steps[i]}")
+        plt.plot(x_val, u_val, label=r"$n_{step}$ = " + fr"$10^{np.int_(n_exp[i])}$")
 
+    #analytical
+    x_exact = np.linspace(0, 1, 1000)
+    u_x = 1 - (1-np.exp(-10))*x_exact - np.exp(-10*x_exact)
     plt.plot(x_exact, u_x, label="analytical", color="black", linestyle="dotted", linewidth=3)
 
-    plt.legend(fontsize=14, loc="lower left")
+    plt.legend(fontsize=14, loc="lower center")
     plt.xlabel("x", fontsize=14)
     plt.ylabel("u(x)", fontsize=14)
     plt.loglog()
@@ -58,25 +64,29 @@ def compare_sol(filename, n_steps):
     plt.savefig("task7plot.pdf")
     plt.close()
 
-n_steps = [1e1, 1e2, 1e3, 1e6, 1e7]
-filenames = ["output_task7_10.txt","output_task7_100.txt","output_task7_1000.txt",
-             "output_task7_1000000.txt", "output_task7_10000000.txt"]
-
 compare_sol(filenames, n_steps)
 
 
 #Problem 8
 
-#Function to plot abs/rel error and the max of the rel error compared to n_step
 def absolute_relative_error(filename, n_steps):
+    #Function to plot abs/rel error and the max of the rel error compared to n_step
+
     fig, (ax1, ax2) = plt.subplots(1, 2)
-    fig.suptitle(f"Absolute/relative error for n_steps = {n_steps}", fontsize=14)
+    fig.set_size_inches(14,6)
+    fig.suptitle(f"Error comparison", fontsize=16)
+
     #relative error max array
     rel_max = np.zeros(len(n_steps))
+
     #plotting absolute/relative error for each n_step in the same plots
     for i in range(len(filename)):
-        x = np.linspace(0.001, 1, int(n_steps[i])+1)
+        x = np.linspace(0, 1, int(n_steps[i])+1)
+        # analytic values of u(x)
         u_x = 1 - (1 - np.exp(-10)) * x - np.exp(-10 * x)
+        # redefine array to exclude the known boundary points u(0) = u(1) = 0
+        u_x = u_x[1:-1]
+        # extract v(x) values from .txt file
         infile = open(filename[i], "r")
         v_val = []
         x_val = []
@@ -84,42 +94,49 @@ def absolute_relative_error(filename, n_steps):
             x_i, v = line.split()
             x_val.append(float(x_i))
             v_val.append(float(v))
+        # turn lists into arrays
         v_val = np.array(v_val)
         x_val = np.array(x_val)
-        absolute_error = np.abs(u_x - v_val)
-        relative_error = np.abs((u_x - v_val)/u_x)
-        ax1.plot(x_val, absolute_error, label=f"absolute error (nstep ={n_steps[i]})")
-        ax1.legend(fontsize=14)
-        ax1.set_xlabel("x_i", fontsize=14)
-        ax1.set_ylabel("error", fontsize=14)
-        """
-        ax1.tick_params(axis="x", labelsize=14)
-        ax1.tick_params(axis="y", labelsize=14)
-        """
-        ax2.plot(x_val, relative_error, label=f"relative error (nstep ={n_steps[i]})")
-        ax2.legend(fontsize=14)
-        ax2.set_xlabel("x_i", fontsize=14)
-        ax2.set_ylabel("error", fontsize=14)
-        """
-        ax2.tick_params(axis="x", labelsize=14)
-        ax2.tick_params(axis="y", labelsize=14)
-        """
+        # redefine arrays to exclude the known boundary points u(0) = u(1) = 0
+        v_val = v_val[1:-1]
+        x_val = x_val[1:-1]
+        # find log10 of abs/rel error
+        abs_error =  np.abs(u_x - v_val) 
+        rel_error =  np.abs((u_x - v_val)/u_x) 
+
+        ax1.plot(x_val, abs_error, label=r"$n_{step}$ = " + fr"$10^{np.int_(n_exp[i])}$")
+        ax1.legend(fontsize=14, loc="lower center")
+        ax1.set_xlabel("x", fontsize=14)
+        ax1.set_ylabel(r"absolute error $\Delta$", fontsize=14)
+        ax1.set_yscale("log")
+        ax1.grid(linestyle="dotted")
+    
+        ax2.plot(x_val, rel_error, label=r"$n_{step}$ = " + fr"$10^{np.int_(n_exp[i])}$")
+        ax2.legend(fontsize=14, loc="lower center")
+        ax2.set_xlabel("x", fontsize=14)
+        ax2.set_ylabel(r"relative error $\epsilon$", fontsize=14)
+        ax2.set_yscale("log")
+        ax2.grid(linestyle="dotted")
+    
         # finding maximum relative error
-        rel_max[i] = np.max(relative_error[1:-1])
-        ax1.loglog()
-        ax2.loglog()
+        rel_max[i] = np.max(rel_error)
+    
     #fig.tight_layout()
     plt.savefig("Task_8ab.pdf")
-    plt.show()
-#plotting maximum relative error
-    plt.plot(n_steps, rel_max, label="maximum relative error")
+    plt.close()
+
+    #plotting maximum relative error
+    plt.plot(n_steps, rel_max)
+    plt.scatter(n_steps, rel_max, marker="x", color = "black", label="data points")
     plt.legend(fontsize=14)
-    plt.xlabel("n_steps", fontsize=14)
-    plt.ylabel(r"max($\epsilon_i$)", fontsize=14)
-    plt.title("max relative error vs n_steps",fontsize=16)
+    plt.xlabel(r"$n_{steps}$", fontsize=14)
+    plt.ylabel(r"max($\epsilon$)", fontsize=14)
     plt.loglog()
+    plt.title(r"Maximum relative error vs. $n_{steps}$",fontsize=16)
+    plt.grid(linestyle="dotted")
     plt.savefig("Task_8c.pdf")
-    plt.show()
+    plt.close()
+
 absolute_relative_error(filenames, n_steps)
 
 
