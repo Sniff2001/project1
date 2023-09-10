@@ -34,7 +34,8 @@ filenames = ["output_task7_10.txt","output_task7_100.txt","output_task7_1000.txt
              "output_task7_1000000.txt", "output_task7_10000000.txt"]
 
 def compare_sol(filename, n_steps):
-    plt.figure(figsize=(8,6))
+    fig, (ax1, ax2) = plt.subplots(1, 2)
+    fig.set_size_inches(14,6)
 
     #numerical
     for i in range(len(filename)):
@@ -47,20 +48,28 @@ def compare_sol(filename, n_steps):
             u_val.append(float(u))
         u_val = np.array(u_val)
         x_val = np.array(x_val)
-        plt.plot(x_val, u_val, label=r"$n_{step}$ = " + fr"$10^{np.int_(n_exp[i])}$")
+        ax1.plot(x_val, u_val, label=r"$n_{step}$ = " + fr"$10^{np.int_(n_exp[i])}$")
+        ax2.plot(x_val, u_val, label=r"$n_{step}$ = " + fr"$10^{np.int_(n_exp[i])}$")
 
     #analytical
     x_exact = np.linspace(0, 1, 1000)
     u_x = 1 - (1-np.exp(-10))*x_exact - np.exp(-10*x_exact)
-    plt.plot(x_exact, u_x, label="analytical", color="black", linestyle="dotted", linewidth=3)
+    ax1.plot(x_exact, u_x, label="analytical", color="black", linestyle="dotted", linewidth=3)
+    ax2.plot(x_exact, u_x, label="analytical", color="black", linestyle="dotted", linewidth=3)
 
-    plt.legend(fontsize=14, loc="lower center")
-    plt.xlabel("x", fontsize=14)
-    plt.ylabel("u(x)", fontsize=14)
-    plt.loglog()
-    plt.xticks(fontsize=14)
-    plt.yticks(fontsize=14)
-    plt.grid(linestyle="dotted")
+    ax1.legend(fontsize=14, loc="upper right")
+    ax1.set_xlabel("x", fontsize=14)
+    ax1.set_ylabel("u(x)", fontsize=14)
+    ax1.grid(linestyle="dotted")
+    ax1.set_title("Regular plot", fontsize=16)
+
+    ax2.legend(fontsize=14, loc="lower center")
+    ax2.set_xlabel("x", fontsize=14)
+    ax2.set_ylabel("u(x)", fontsize=14)
+    ax2.grid(linestyle="dotted")
+    ax2.set_title("LogLog plot", fontsize=16)
+    ax2.loglog()
+
     plt.savefig("task7plot.pdf")
     plt.close()
 
@@ -153,4 +162,4 @@ plt.xticks(fontsize=14)
 plt.yticks(fontsize=14)
 plt.title(r"Benchmarking at different n$_{steps}$", fontsize=16)
 plt.grid(linestyle="dotted")
-plt.show()
+plt.close()
