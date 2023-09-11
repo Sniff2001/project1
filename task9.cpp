@@ -43,9 +43,8 @@ int runTask9(int n_steps, std::string filename) {
 
 #pragma omp parallel for
 	for (int i = 2; i < n_steps; i++) {
-		double frac_i = 1. / (b_tilde[i - 1]);
-		b_tilde.push_back(2. - frac_i);
-		g_tilde.push_back(g[i] + frac_i * g_tilde[i - 1]);
+		b_tilde.push_back(2. - 1. / (b_tilde[i - 1]));
+		g_tilde.push_back(g[i] + g_tilde[i - 1] / b_tilde[i - 1]);
 	}
 
 	// backward for loop to calculate each index of v
