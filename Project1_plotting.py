@@ -129,6 +129,8 @@ def absolute_relative_error(filename, n_steps):
     
         # finding maximum relative error
         rel_max[i] = np.max(rel_error)
+        # write out maximum relative error data
+        print(f"rel_max {n_steps[i]:10.0f}:  {rel_max[i]:15.6g}")
     
     #fig.tight_layout()
     plt.savefig("Task_8ab.pdf")
@@ -145,6 +147,7 @@ def absolute_relative_error(filename, n_steps):
     plt.grid(linestyle="dotted")
     plt.savefig("Task_8c.pdf")
     plt.close()
+
 
 absolute_relative_error(filenames, n_steps)
 

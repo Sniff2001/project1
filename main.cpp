@@ -17,16 +17,20 @@ int main(int argc, char* argv[]) {
         std::vector<double> b(n_steps[i] + 1, 2);
         std::vector<double> c(n_steps[i], -1);
 
+        // in order to match the indices with the indices shown in the pdf algorithm
         a[0] = 0;
         b[0] = 0;
         c[0] = 0;
 
-        std::string output_file_name = "output_task7_" + std::to_string(n_steps[i]) + ".txt";
-        runTask7(a, b, c, n_steps[i], output_file_name);
-     
-        double avg_time = runTask10(runTask7, a, b, c, n_steps[i], "test_output.txt", 100);
+        std::string output_file_name7 = "output_task7_" + std::to_string(n_steps[i]) + ".txt";
+        runTask7(a, b, c, n_steps[i], output_file_name7);
 
-        std::cout << n_steps[i] << " steps time: " << avg_time << " s" << std::endl;
+        std::string output_file_name9 = "output_task9_" + std::to_string(n_steps[i]) + ".txt";
+        runTask9(n_steps[i], output_file_name9);
+     
+        //double avg_time = runTask10(runTask7, a, b, c, n_steps[i], "test_output.txt", 100);
+
+        //std::cout << n_steps[i] << " steps time: " << avg_time << " s" << std::endl;
 
     }
     
