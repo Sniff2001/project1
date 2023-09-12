@@ -26,12 +26,17 @@ int main(int argc, char* argv[]) {
         runTask7(a, b, c, n_steps[i], output_file_name7);
 
         std::string output_file_name9 = "output_task9_" + std::to_string(n_steps[i]) + ".txt";
-        runTask9(n_steps[i], output_file_name9);
-     
-        //double avg_time = runTask10(runTask7, a, b, c, n_steps[i], "test_output.txt", 100);
+        runTask9(a, b, c, n_steps[i], output_file_name9);
 
-        //std::cout << n_steps[i] << " steps time: " << avg_time << " s" << std::endl;
+        // we do not wish to include n_steps = 10^7 in task 10
+        if (n_steps[i] < 10000000) {
 
+            double avg_time7 = runTask10(runTask7, a, b, c, n_steps[i], "test_output.txt", 100);
+            std::cout << n_steps[i] << " steps time task 7: " << avg_time7 << " s" << std::endl;
+
+            double avg_time9 = runTask10(runTask9, a, b, c, n_steps[i], "test_output.txt", 100);
+            std::cout << n_steps[i] << " steps time task 9: " << avg_time9 << " s" << std::endl;
+        }
     }
     
     // All is well. Exit program with return code 0.

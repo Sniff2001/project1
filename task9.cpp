@@ -10,9 +10,11 @@
 #pragma
 
 // remember to add .txt to the end of filename
-int runTask9(int n_steps, std::string filename) {
+int runTask9(std::vector<double> a, std::vector<double> b, std::vector<double> c, int n_steps, std::string filename) {
 
-	/* Special algorithm where matrix A has signature (-1,2,-1), meaning a = -1, b = 2 and c = -1 */
+	/* Special algorithm where matrix A has signature (-1,2,-1), meaning a = -1, b = 2 and c = -1 
+	Note that the parameters in the definiton are not used in the actuall algorithm, they were 
+	included to make the come more uniform later on */
 
 	double h = 1. / n_steps;
 

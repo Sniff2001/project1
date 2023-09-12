@@ -154,7 +154,8 @@ absolute_relative_error(filenames, n_steps)
 #Problem 10
 
 #benchmark times
-time = [0.00075363, 0.00191623, 0.0193383, 13.8246] #seconds
+timeTask7 = [0.000158173, 0.000214158,  0.000836568, 0.565651] #seconds
+timeTask9 = []
 n_steps_limited = [1e1, 1e2, 1e3, 1e6] #steps
 plt.plot(n_steps_limited, time, label="Benchmark")
 plt.legend(fontsize=14, loc="lower center")
