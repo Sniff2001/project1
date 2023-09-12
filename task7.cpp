@@ -63,7 +63,6 @@ int runTask7(std::vector<double> a, std::vector<double> b, std::vector<double> c
 	//write to data file, same setup as for task 2
 	std::ofstream ofile;
 	ofile.open(filename);
-	std::vector<double> v1(n_steps);
 	int width = 15;
 	int prec = 7;
 

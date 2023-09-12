@@ -153,20 +153,32 @@ absolute_relative_error(filenames, n_steps)
 
 #Problem 10
 
-#benchmark times from terminal
-timeTask7 = [0.000170869, 0.000212493, 0.00195841, 0.613911] # [s]
-timeTask9 = [0.000517247, 0.000624843, 0.00159843, 0.545412] # [s]
-n_steps_limited = n_steps[:-1]                               # we omit 10^7 in task 10
-plt.figure(figsize=(10,5))
-plt.plot(n_steps_limited, timeTask7, label="general algorithm")
-plt.plot(n_steps_limited, timeTask9, label="special algorithm")
-plt.legend(fontsize=14, loc="lower center")
-plt.xlabel(r"$n_{steps}$", fontsize=14)
-plt.ylabel("time [s]", fontsize=14)
-plt.xticks(fontsize=14)
-plt.yticks(fontsize=14)
-plt.loglog()
-plt.title(r"Benchmarking at different n$_{steps}$ for the general and special algorithm", fontsize=16)
-plt.grid(linestyle="dotted")
-plt.savefig("Task_9.pdf")
-plt.close()
+def benchmark_times(filename):
+    # Plots the benchmark times stored in <filename>, which should have 3 columns containing n_step,
+    # benchmark for task 7 and benchmark for task9.
+
+    infile = open(filename, "r")
+    timeTask7 = []
+    timeTask9 = []
+    nsteps    = []
+    for line in infile:
+        step_i, time7_i, time9_i = line.split()
+        nsteps.append(float(step_i))
+        timeTask7.append(float(time7_i))
+        timeTask9.append(float(time9_i))
+    
+    plt.figure(figsize=(10,5))
+    plt.plot(nsteps, timeTask7, label="general algorithm")
+    plt.plot(nsteps, timeTask9, label="special algorithm")
+    plt.legend(fontsize=14, loc="lower right")
+    plt.xlabel(r"$n_{steps}$", fontsize=14)
+    plt.ylabel("time [s]", fontsize=14)
+    plt.xticks(fontsize=14)
+    plt.yticks(fontsize=14)
+    plt.loglog()
+    plt.title(r"Benchmarking at different n$_{steps}$ for the general and special algorithm", fontsize=16)
+    plt.grid(linestyle="dotted")
+    plt.savefig("Task_10.pdf")
+    plt.close()
+
+benchmark_times("benchmark.txt")
