@@ -16,7 +16,7 @@ std::vector<double> u(std::vector<double> x) {
 }
 
 int runTask2() {
-    // Set a filename
+    // Define filename
     std::string filename = "x_vec.txt";
 
     /* Create and open the output file. Or, technically, create
