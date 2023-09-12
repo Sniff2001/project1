@@ -16,19 +16,16 @@ int runTask9(int n_steps, std::string filename) {
 
 	double h = 1. / n_steps;
 
-	double g0 = std::pow(h, 2.0) * 100 * exp(-10 * 0);
-
 	// Define the solution vectors
 	std::vector<double> g(n_steps + 1);
 	std::vector<double> v(n_steps + 1);
 	std::vector<double> x(n_steps + 1);
 
 	// creating an even number of points between 0 and 1 of n_steps length
-	x[0] = 0.;
 	int xsize = x.size();
 
 #pragma omp parallel for
-	for (int i = 1; i < xsize; i++) {
+	for (int i = 0; i < xsize; i++) {
 		x[i] = i * h;
 		g[i] = std::pow(h, 2.) * 100 * exp(-10 * x[i]);
 	}
@@ -37,7 +34,7 @@ int runTask9(int n_steps, std::string filename) {
 	v[0] = 0.;
 	v[n_steps] = 0.;
 	std::vector<double> b_tilde = { 0., 2. };
-	std::vector<double> g_tilde = { 0., g0 };
+	std::vector<double> g_tilde = { 0., g[1] };
 
 	// forward for loop to calculate the primes' indices
 
