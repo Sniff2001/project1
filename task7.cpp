@@ -1,10 +1,8 @@
 #include <iostream>
-#include <string>
 #include <fstream>
-#include <cmath>
 #include <vector>
 #include <iomanip>
-#include <numeric>
+#include <cmath>
 #include <omp.h>
 
 #pragma
@@ -30,7 +28,7 @@ int runTask7(std::vector<double> a, std::vector<double> b, std::vector<double> c
 #pragma omp parallel for
 	for (int i = 0; i < xsize; i++) {
 		x[i] = i * h;
-		g[i] = std::pow(h, 2.) * 100 * exp(-10 * x[i]);
+		g[i] = pow(h, 2.) * 100 * exp(-10 * x[i]);
 	}
 
 	// Setting up boundary values
