@@ -1,10 +1,7 @@
 #include <iostream>
-#include <string>
 #include <fstream>
-#include <cmath>
 #include <vector>
 #include <iomanip>
-#include <numeric>
 #include <omp.h>
 
 #pragma
@@ -40,12 +37,12 @@ int runTask7(std::vector<double> a, std::vector<double> b, std::vector<double> c
 	// to ensure that the indices match with the algorithm described in the pdf.
 	std::vector<double> b_tilde = { 0., b[1] };
 	std::vector<double> g_tilde = { 0., g[1] };
-
+	b_tilde.reserve(n_steps);
+	g_tilde.reserve(n_steps);
 	// forward for loop to calculate the primes' indices
 	// note that the loop starts from the second value, as
 	// b_tilde[1] and g_tilde[1] is found separately (above).
 
-#pragma omp parallel for
 	for (int i = 2; i < n_steps; i++) {
 		double frac_i = a[i] / (b_tilde[i - 1]);
 		b_tilde.push_back(b[i] - frac_i * c[i-1]);
@@ -58,7 +55,6 @@ int runTask7(std::vector<double> a, std::vector<double> b, std::vector<double> c
 
 	v[n_steps - 1] = g_tilde[n_steps - 1] / b_tilde[n_steps - 1];
 
-#pragma omp parallel for
 	for (int i = v.size() - 2; i > 0; i--) {
 		v[i] = (g_tilde[i] - (v[i + 1] * c[i])) / b_tilde[i];
 	}

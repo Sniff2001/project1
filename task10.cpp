@@ -1,14 +1,7 @@
 #include <iostream>
-#include <string>
-#include <fstream>
-#include <cmath>
 #include <vector>
-#include <iomanip>
-#include <numeric>
 #include <functional>
 #include <chrono>
-#include <vector>
-#include <omp.h>
 
 double runTask10(std::function<int(std::vector<double>, std::vector<double>, std::vector<double>, int, std::string)> func, std::vector<double> a, std::vector<double> b, std::vector<double> c, int n_steps, std::string filename, int times = 10) {
     double sum = 0;

@@ -1,10 +1,7 @@
 #include <iostream>
-#include <string>
 #include <fstream>
-#include <cmath>
 #include <vector>
 #include <iomanip>
-#include <numeric>
 #include <omp.h>
 
 #pragma

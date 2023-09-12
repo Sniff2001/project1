@@ -29,7 +29,7 @@ int main(int argc, char* argv[]) {
         runTask9(a, b, c, n_steps[i], output_file_name9);
 
         // we do not wish to include n_steps = 10^7 in task 10
-        if (n_steps[i] < 10000000) {
+        if (n_steps[i] <= 1000000) {
 
             double avg_time7 = runTask10(runTask7, a, b, c, n_steps[i], "test_output.txt", 100);
             std::cout << n_steps[i] << " steps time task 7: " << avg_time7 << " s" << std::endl;

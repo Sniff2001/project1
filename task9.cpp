@@ -1,10 +1,7 @@
 #include <iostream>
-#include <string>
 #include <fstream>
-#include <cmath>
 #include <vector>
 #include <iomanip>
-#include <numeric>
 #include <omp.h>
 
 #pragma
@@ -40,7 +37,6 @@ int runTask9(std::vector<double> a, std::vector<double> b, std::vector<double> c
 
 	// forward for loop to calculate the primes' indices
 
-#pragma omp parallel for
 	for (int i = 2; i < n_steps; i++) {
 		b_tilde.push_back(2. - 1. / (b_tilde[i - 1]));
 		g_tilde.push_back(g[i] + g_tilde[i - 1] / b_tilde[i - 1]);
@@ -52,7 +48,6 @@ int runTask9(std::vector<double> a, std::vector<double> b, std::vector<double> c
 
 	v[n_steps - 1] = g_tilde[n_steps - 1] / b_tilde[n_steps - 1];
 
-#pragma omp parallel for
 	for (int i = v.size() - 2; i > 0; i--) {
 		v[i] = (g_tilde[i] + v[i + 1]) / b_tilde[i];
 	}
